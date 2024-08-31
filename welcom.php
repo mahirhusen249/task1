@@ -34,7 +34,8 @@
         <li class="nav-item">
              <a class="nav-link" href="logout.php">logout</a> 
         </li> 
-  </nav>   
+  </nav>     
+  <img src="img/pexels-pixabay-531880.jpg" alt="">
   <h1>Welcome</h1>
  </body>
  </html>

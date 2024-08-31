@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -12,42 +11,45 @@
 </head>
 
 <body>
-  <?php  
-  session_start();
-  if(isset($_SESSION['email']))   {
-    header("location: welcom.php");
-  }
-   include 'connection.php';    
-   if($_SERVER["REQUEST_METHOD"]=="POST"){
-    // $showAlert = false;
-    // $showError=false;
-    
-       $email = $_POST['email'];   
-       $password = $_POST['password'];    
-         
+    <?php
+     session_start();
+     if (isset($_SESSION['email'])) {
+         header("location: welcom.php");
+    }
+    include 'connection.php';
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        // $showAlert = false;
+        // $showError=false;   
+ 
+
+        $email_number = $_POST['number_email'];
+        $password = $_POST['password'];
+        // $email_number = $_POST['number_email'];
+
+
+         $sql = "SELECT * FROM `user` WHERE  email='$email_number' OR phonenumber='$email_number' AND password='$password'"; 
+        
+        // $sql = "SELECT * FROM `user` WHERE email='$email' ";
+
+         $result = mysqli_query($con, $sql);
        
-    $sql="SELECT * FROM `user` WHERE email='$email' AND password='$password'";  
-    $result = mysqli_query($con, $sql);     
-    $num = mysqli_num_rows($result); 
-    while($num = mysqli_fetch_assoc($result)) 
-           {
-        if($num){      
-                $_SESSION['email']=$email;
-                $_SESSION['password']=$password;
-             header("location:welcom.php");
-        }
-        else{
+        if (mysqli_num_rows($result)>0) {
+            while($row=mysqli_fetch_assoc($result)){
+                $_SESSION['email'] = $email_number;
+                //  $_SESSION['phonenumber'] = $email_number;
+                 $_SESSION['password'] = $password;
+            header("location:welcom.php");
+            }
+               
+        } else {
             echo 'something wrong';
         }
     }
-        
-          
-          
-   }
 
-  
 
-?>
+
+
+    ?>
     <nav class="navbar navbar-expand-lg bg-body-tertiary">
         <div class="container-fluid">
             <a class="navbar-brand" href="/loginsystem>isecure"></a>
@@ -63,73 +65,41 @@
                         <a class="nav-link active" aria-current="page" href="login.php">login</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="signup.php">singup</a>
+                        <a class="nav-link" href="register.php">Register</a>
                     </li>
-                    <!-- <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Dropdown
-          </a> -->
-                    <!-- <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="#">Action</a></li>
-            <li><a class="dropdown-item" href="#">Another action</a></li>
-            <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" href="#">Something else here</a></li>
-          </ul>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link disabled" aria-disabled="true">Disabled</a>
-        </li> -->
                 </ul>
-
-                <form class="d-flex" role="search">
-                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-
-                    <button class="btn btn-outline-success" type="submit">Search</button>
-                </form>
             </div>
         </div>
     </nav>
-   <div class="container ">
-    <form action="" method="post">
-    <div class="row mt-5 justify-content-center">
-        <!-- <div class="col-md-3"></div> -->
-        <div class="col-md-6">
-        <label for="exampleInputEmail1"  class="form-label">Email address</label>
-        <input type="email" class="form-control" name="email" id="exampleInputEmail1" aria-describedby="emailHelp"placeholder="Enter your email"required>
+
+    <div class="container ">
+        <div class="row mt-4 justify-content-center">
+            <h1 class="text-center">login website</h1>
         </div>
+        <form action="" method="post">
+            <div class="row mt-5 justify-content-center">
+                <!-- <div class="col-md-3"></div> -->
+                <div class="col-md-6">
+                    <label for="exampleInputEmail1" class="form-label">Email address or phonenumber</label>
+                    <input type="text" class="form-control" name="number_email" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter your email/number" required>
+
+                </div>
+            </div>
+            <div class="row mt-2 justify-content-center">
+                <!-- <div class="col-md-3"></div> -->
+                <div class="col-md-6">
+                    <label for="exampleInputEmail1" class="form-label">Password</label>
+                    <input type="password" class="form-control" name="password" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter your password" required>
+                </div>
+            </div>
+            <div class="row mt-4 justify-content-center">
+                <div class="col-md-5"></div>
+                <div class="col-md-6">
+                    <button class="btn btn-primary">Login</button>
+                </div>
+            </div>
+        </form>
     </div>
-    <div class="row mt-2 justify-content-center">
-    <!-- <div class="col-md-3"></div> -->
-        <div class="col-md-6">
-        <label for="exampleInputEmail1" class="form-label">Password</label>
-        <input type="password" class="form-control"name="password" id="exampleInputEmail1" aria-describedby="emailHelp"placeholder="Enter your password"required>
-        </div>
-    </div>
-    <div class="row mt-4 justify-content-center">
-        <div class="col-md-5"></div>
-        <div class="col-md-6">
-       <button class="btn btn-primary">Login</button>
-        </div>
-    </div>
-    </form>
-   </div>
 </body>
 
 </html>
-<!-- <form action="" method="post"> -->
-        <!-- <div class="form-section justify-content-center">
-        <div class="mb-3 col-lg-6">
-            <label for="exampleInputEmail1" class="form-label">Email address</label>
-            <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-        </div>
-
-        <div class="mb-3 col-lg-6">
-            <label for="exampleInputPassword1" class="form-label">Password</label>
-            <input type="password" class="form-control" id="exampleInputPassword1">
-        </div>
-
-        <div class="mb-3 col-lg-6">
-             <button type="button" class="btn btn-lg btn-primary form-control">Login</button>
-        </div>
-        </div>
-    </form> -->
